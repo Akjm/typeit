@@ -3,6 +3,20 @@
 	100% {opacity: 0;}
 }
 
+@keyframes cycle {
+	0%{background-color: #e74c3c;}
+	20%{background-color: #f1c40f;}
+	40%{background-color: #2ecc71;}
+	60%{background-color: #3498db;}
+	80%{background-color: #9b59b6;}
+	100%{background-color: #34495e;}
+}
+
+@keyframes bounce {
+	0%{transform: scale(1);}
+	100%{transform: scale(1.4);}
+}
+
 body {
 	font-family: sans-serif;
 	margin: 0;
@@ -29,6 +43,8 @@ h1 {
 
 #c1,#c2,#c3 {
 	display: none;
+	animation: bounce 1s infinite;
+	animation-direction: reverse;
 }
 
 i {
@@ -36,12 +52,16 @@ i {
 	animation-direction: alternate;
 }
 
-#menu, #game {
+#menu, #game, #gameover {
 	text-align: center;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
+}
+
+#gameover {
+	display: none;
 }
 
 #history {
@@ -52,9 +72,53 @@ i {
     left: 0;
     top: 0;
     /*background: rgba(51,51,51,0.7);*/
+	text-transform: uppercase;
+	opacity: 1;
+	padding: 0;
+	margin: 0;
+	animation: cycle 20s infinite;
+	animation-direction: alternate;
 }
 
 #history_p {
-	color: red;
-	font-size: 3em;
+	color: white;
+	font-size: 4em;
+	font-weight: bold;
+	padding: 15px;
+	margin: 0;
+	line-height: 1em;
+	opacity: 0.6;
+
+}
+
+#letter {
+	font-family: serif;
+	font-weight: 300;
+	animation: bounce 0.4s infinite;
+	animation-direction: alternate;
+}
+
+#letter,#timer {
+	color: white;
+	z-index: 100;
+	
+}
+
+#score {
+	display: none;
+	font-size: 0.7em;
+	color: white;
+}
+
+#scorefinal {
+	
+	font-size: 2.7em;
+	color: white;
+}
+
+
+#pressure {
+	display: none;
+	font-size: 2em;
+	color: white;
 }
