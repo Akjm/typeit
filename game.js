@@ -3,7 +3,9 @@
 
 // Global variables
 var game = false;
+var init = false;
 var lost = false;
+var score = 0;
 
 var abc = "qwertyuiopasdfghjklzxcvbnm";
 var xyz = abc.split("");
@@ -12,38 +14,42 @@ var cur_letter = ""
 var history = ""
 
 // Timer
-var count=4; 
-var gametime = 1000;
+var count=40; 
+var gametime = 100;
 var counter;
+
 
 
 // Keypress detection
 $(document).keypress(function(event) {
 
 	// Check for first-run
-	if (game == false) {
+	if (game == false && init == false) {
 		if (lost == false) {
 			startgame();
 		}
 	}
 	
 	// Check if game in progress
-	else if (game == true) {
+	else if (game == true && cur_letter !== "") {
 		
 		// Decode which key is pressed
 		var c = String.fromCharCode(event.which)
 		
 		// End game if wrong
-		if (c !== cur_letter) {
+		if (c !== cur_letter.toLowerCase()) {
 			endGame()
 		}
 		
 		// Log key, reload the round
 		else {
+			score++;
+			$("#score").html("CURRENT SCORE: " + score);
 			String(cur_letter + " ");
 			document.getElementById("history_p").innerHTML = document.getElementById("history_p").innerHTML + String(cur_letter + " ");
 			clearInterval(counter);
-			loadRound();
+			loadRound();	
+			
 		}
 	}
 });
@@ -54,6 +60,7 @@ function startgame() {
 	// Set up
 	$("#menu").hide();
 	$("#countdown").show();
+	init = true;
 	
 	$("#c3").show();
 
@@ -79,21 +86,32 @@ function endGame() {
 	game = false;
 	$("#game").hide();
 	lost = true;
+
+	$("#gameover").show();
+	$("#scorefinal").html("FINAL SCORE: " + score);
 }
 
 function genLetter() {
 	cur_letter = xyz[Math.floor(Math.random()*xyz.length)];
+	
+	if(Math.round(Math.random()) == 1) {
+		cur_letter = cur_letter.toUpperCase();
+	}
+	
 	$("#letter").html(cur_letter);
 }
 
 function playgame() {
 	$("#history").show();
+	$("#score").show();
+	//$("#pressure").show();
+
 	game = true;
 	loadRound();
 }
 
 function loadRound() {
-	count=4;
+	count=40;
 	clearInterval(counter);
 	genLetter();
 	counter=setInterval(function() {timer();}, gametime); //1000 will  run it every 1 second
@@ -103,7 +121,7 @@ function loadRound() {
 function timer() {
 
   count=count-1;
-  if (count <= 1) {
+  if (count <= 0) {
   
      //Couter end
 	 clearInterval(counter);
